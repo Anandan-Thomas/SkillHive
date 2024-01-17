@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'landing.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Worker Table</title>
+</head>
+<body>
+<div class="col-xl-12">
+  <div class="card">
+    <div class="card-header">
+      <center><h5>Worker Details</h5></center>
+    </div>
+    <div class="card-body table-border-style">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th>Worker ID</th>
+            <th>Username</th>
+            <th>Contact Number</th>
+            <th>Email</th>
+            <th>Profile</th>
+            <th>Status</th>
+            <th>Option</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for i in work %}
+          <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.work_username}}</td>
+            <td>{{i.mobile}}</td>
+            <td>{{i.email}}</td>
+            <td>
+              <form action="{% url 'adm_wrk_prof' dataid=i.work_username %}">
+                <button type="submit" class="btn btn-primary">
+                  <i class="feather icon-user-check">Profile</i>
+                </button>
+              </form>
+            </td>
+            <td>
+              {% if i.is_disabled == 1 %}
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#dis{{i.id}}">Disabled</button>
+              <div class="modal fade" id="dis{{i.id}}">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="title">{{i.work_username}}'s account disabled</h4>
+                    </div>
+                    <div class="modal-body">
+                      <textarea rows="2" class="form-control" readonly >If you wish to enable {{i.work_username}}'s account and set their black points to 0, click on the enable button</textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="{% url 'adm_enable' sk_user=i.work_username %}" class="btn btn-warning">Enable</a>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% else %}
+              <button type="button" class="btn btn-info">Enabled</button>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'adm_delete_worker' wID=i.id %}" class="btn btn-outline-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+{% endblock %}
+</html>

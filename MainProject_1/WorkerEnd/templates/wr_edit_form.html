@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'wr_landing.html' %}
+{% block content %}
+{% load static %}
+<head>
+    <meta charset="UTF-8"/>
+    <script src="{% static 'jkl/js/prof_form.js' %}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function()
+    {
+        $('.cb_val').click(function()
+        {
+            var txt="";
+            $('.cb_val:checked').each(function()
+            {
+                txt+=$(this).val()+",";
+            });
+            txt=txt.substring(0,txt.length-1);
+            $('#cb_end').val(txt);
+        });
+    });
+
+    </script>
+    <title>Registration Form</title>
+</head>
+<body class="prof_form">
+<div class="row">
+    <div class="col-xl-12">
+        <form method="post" action="{% url 'wr_prod_upd' dataid=flag.username %}" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1 class="text-center">Profile Updation for {{request.session.wr_username}}</h1>
+            <!-- Progress bar -->
+            <div class="progressbar">
+                <div class="progress" id="progress"></div>
+
+                <div
+                        class="progress-step progress-step-active"
+                        data-title="Personal Details"
+                ></div>
+                <div class="progress-step" data-title="Your Skills"></div>
+                <div class="progress-step" data-title="Contact Details"></div>
+                <!--        <div class="progress-step" data-title="Password"></div>-->
+                <!--        <div class="progress-step" data-title="Checking"></div>-->
+            </div>
+
+            <!-- Steps -->
+            <div class="form-step form-step-active">
+                <div class="input-group">
+                    <label>First Name</label>
+                    <input type="text" name="wr_fname" value="{{flag.first_name}}">
+                    <input type="hidden" value="{{request.session.wr_username}}" name="wr_user">
+                </div>
+                <div class="input-group">
+                    <label>Last Name</label>
+                    <input type="text" name="wr_lname" value="{{flag.last_name}}">
+                </div>
+                <div class="input-group">
+                    <label>Display Name</label>
+                    <input type="text" name="wr_disp_name" value="{{flag.disp_name}}">
+                    <small id="" class="form-text text-muted">This is the name that will be shown in the website to the
+                        users seeking your skills</small>
+                </div>
+                <div class="input-group">
+                    <label>Location</label>
+                    <div class="input-group sub" style="margin-top:-2px;">
+                        <select class="custom-select" name="wr_district" id="district">
+                            <option value="{{flag.district}}" selected hidden>{{flag.district}}</option>
+                            <option value="Wayanad">Wayanad</option>
+                            <option value="Thrissur">Thrissur</option>
+                            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                            <option value="Pathanamthitta">Pathanamthitta</option>
+                            <option value="Palakkad">Palakkad</option>
+                            <option value="Malappuram">Malappuram</option>
+                            <option value="Kozhikode">Kozhikode</option>
+                            <option value="Kottayam">Kottayam</option>
+                            <option value="Kollam">Kollam</option>
+                            <option value="Kasaragod">Kasaragod</option>
+                            <option value="Kannur">Kannur</option>
+                            <option value="Idukki">Idukki</option>
+                            <option value="Ernakulam">Ernakulam</option>
+                            <option value="Alappuzha">Alappuzha</option>
+                        </select>
+                    </div>
+                    <input type="text" name="wr_town" value="{{flag.town}}">
+                    <small class="form-text text-muted">Enter your town name here</small>
+                </div>
+                <div class="input-group">
+                    <label>Profile Picture</label>
+                    <div class="form-element">
+                        <input type="file" id="file-1" accept="image/*" name="wr_pfp">
+                        <label for="file-1" id="file-1-preview">
+                            <img src="{% static 'jkl/images/profile_bg_img.jpg' %}" alt="">
+                            <div>
+                                <span>+</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Description</label><br><br>
+                    <textarea rows="3" name="wr_desc">{{flag.desc}}</textarea>
+                    <small class="form-text text-muted">A brief description introducing yourself and the skill set you
+                        have.</small>
+                </div>
+                <div class="">
+                    <a href="#" class="btn btn-next width-50 ml-auto">Next</a>
+                </div>
+            </div>
+            <div class="form-step">
+                <div class="input-group">
+                    <label>Skills</label>
+                    <div class="checkbox_div">
+                        {% for i in skill %}
+                        <div class="checkbox-wrapper-47">
+                            <input type="checkbox" class="cb_val" value="{{i.skill}}" id="cb-{{i.id}}"/>
+                            <label for="cb-{{i.id}}">{{i.skill}}</label>
+                        </div>
+                        {% endfor %}
+                        <input type="text" name="cb_end" id="cb_end" readonly>
+                    </div>
+                    <small class="form-text text-muted">You need to select the skills you opted again.</small>
+                </div>
+                <div class="input-group">
+                    <label>Update your other skills here!</label>
+                    <input type="text" name="oth_skill" value="{{flag.skill_2}}">
+                    <small class="form-text text-muted">Skills that you wish to market, but are not in the options above
+                        should be mentioned here</small>
+
+                </div>
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev">Previous</a>
+                    <a href="#" class="btn btn-next">Next</a>
+                </div>
+            </div>
+            <div class="form-step">
+                <div class="input-group">
+                    <label>Mobile Number (1)</label>
+                    <input type="tel" name="wr_mbl1" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" value="{{flag.mob_1}}"/>
+                    <small class="form-text text-muted">This is your main mobile number.</small>
+                </div>
+                <div class="input-group">
+                    <label>Mobile Number (2)</label>
+                    <input type="tel" name="wr_mbl2" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" value="{{flag.mob_2}}"/>
+                    <small class="form-text text-muted">This is your secondary mobile number</small>
+                </div>
+                <div class="input-group">
+                    <label>Email ID</label>
+                    <input type="email" name="wr_email" value="{{flag.email}}"/>
+                    <small class="form-text text-muted">Your email is necessary for verification and important updates
+                        about SkillHive</small>
+                </div>
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev">Previous</a>
+                    <input type="submit" value="Submit" class="btn"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    :root {
+  --primary-color: rgb(11, 78, 179);
+}
+
+.prof_form {
+  font-family: Montserrat, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  place-items: center;
+  min-height: 100vh;
+  min-width: 100vh;
+}
+/* Global Stylings */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+
+
+.input-group select{
+border-radius: 10px;
+  outline: 2px solid #FEBF00;
+  border: 0;
+  background-color: white;
+  outline-offset: 3px;
+  padding: 10px 1rem;
+  transition: 0.25s;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+ border-radius: 10px;
+  outline: 2px solid #FEBF00;
+  border: 0;
+  background-color: white;
+  outline-offset: 3px;
+  padding: 10px 1rem;
+  transition: 0.25s;
+}
+input:focus{
+outline-offset: 5px;
+  background-color: #fff
+}
+
+
+textarea{
+  display: flex;
+  width: 100%;
+  padding: 0.75rem;
+ border-radius: 10px;
+  outline: 2px solid #FEBF00;
+  border: 0;
+  background-color: white;
+  outline-offset: 3px;
+  padding: 10px 1rem;
+  transition: 0.25s;
+}
+textarea:focus{
+outline-offset: 5px;
+  background-color: #fff
+}
+
+.checkbox_div{
+width:100%;
+display:flex;
+flex-wrap: wrap;
+height:20vh;
+align-items:flex-start;
+justify-content:space-around;
+}
+
+.checkbox{
+    display:flex;
+    width:20px;
+    align-items:flex-start;
+}
+
+form{
+background-color:#ffdb79;
+z-index:-999;
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Progressbar */
+.progressbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  counter-reset: step;
+  margin: 2rem 0 4rem;
+  z-index:1;
+}
+
+.progressbar::before,
+.progress {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  background-color: grey;
+  z-index: -1;
+}
+
+.progress {
+  background-color: #9a00ff;
+  width: 0%;
+  transition: 0.3s;
+
+}
+
+.progress-step {
+  width: 2.1875rem;
+  height: 2.1875rem;
+  background-color: #ff9a00;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-step::before {
+  counter-increment: step;
+  content: counter(step);
+}
+
+.progress-step::after {
+  content: attr(data-title);
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.progress-step-active {
+  background-color: #9a00ff;
+  color: #f3f3f3;
+  font-size:
+}
+
+/* Form */
+.form {
+  width: 100vh;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 0.35rem;
+  padding: 1.5rem;
+  z-index:-1;
+}
+
+.form-step {
+  display: none;
+  transform-origin: top;
+  animation: animate 0.5s;
+}
+
+.form-step-active {
+  display: block;
+}
+
+.input-group {
+  margin: 2rem 0;
+}
+
+@keyframes animate {
+  from {
+    transform: scale(1, 0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+
+/* Button */
+.btns-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.btn {
+  padding: 0.75rem;
+  display: block;
+  text-decoration: none;
+  background-color: var(--primary-color);
+  color: #f3f3f3;
+  text-align: center;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
+}
+
+.form-element {
+  margin-left:35%;
+  width:200px;
+  height:200px;
+  box-shadow:0px 0px 20px 5px rgba(100,100,100,0.1);
+  overflow:hidden;
+}
+.form-element input {
+  display:none;
+}
+.form-element img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  overflow:hidden;
+}
+.form-element div {
+  position:relative;
+  height:40px;
+  margin-top:-40px;
+  background:rgba(0,0,0,0.5);
+  text-align:center;
+  line-height:40px;
+  font-size:13px;
+  color:#f5f5f5;
+  font-weight:600;
+
+}
+.form-element div span {
+  font-size:40px;
+}
+
+ .checkbox-wrapper-47 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+  }
+
+  .checkbox-wrapper-47 label {
+    position: relative;
+    padding-left: 2em;
+    padding-right: 1em;
+    line-height: 2;
+    cursor: pointer;
+    display: inline-flex;
+    z-index: 1; /* Add this line */
+  }
+
+  .checkbox-wrapper-47 label:before {
+    box-sizing: border-box;
+    content: " ";
+    position: absolute;
+    top: 0.3em;
+    left: 0;
+    display: block;
+    width: 1.4em;
+    height: 1.4em;
+    border: 2px solid #9a00ff;
+    border-radius: 6px;
+    z-index:0;
+  }
+
+  .checkbox-wrapper-47 input[type=checkbox]:checked + label {
+    padding-left: 1em;
+    color: #0f5229;
+    z-index: 1; /* Add this line */
+  }
+  .checkbox-wrapper-47 input[type=checkbox]:checked + label:before {
+    top: 0;
+    width: 100%;
+    height: 2em;
+    background: #b7e6c9;
+    border-color: #9a00ff;
+    z-index: -1; /* Add this line */
+  }
+
+  .checkbox-wrapper-47 label,
+  .checkbox-wrapper-47 label::before {
+    transition: 0.25s all ease;
+  }
+
+</style>
+<script>
+    function previewBeforeUpload(id){
+  document.querySelector("#"+id).addEventListener("change",function(e){
+    if(e.target.files.length == 0){
+      return;
+    }
+    let file = e.target.files[0];
+    let url = URL.createObjectURL(file);
+    document.querySelector("#"+id+"-preview div").innerText = file.name;
+    document.querySelector("#"+id+"-preview img").src = url;
+  });
+}
+
+previewBeforeUpload("file-1");
+
+</script>
+
+</body>
+{% endblock %}
+</html>

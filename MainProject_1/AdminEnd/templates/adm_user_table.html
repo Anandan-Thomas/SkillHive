@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'landing.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>User Table</title>
+</head>
+<body>
+<div class="col-xl-12">
+  <div class="card">
+    <div class="card-header">
+      <center><h5>User Details</h5></center>
+    </div>
+    <div class="card-body table-border-style">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th>User ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Contact Number</th>
+            <th>Email</th>
+            <th>Option</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for i in users %}
+          <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.first_name}}</td>
+            <td>{{i.last_name}}</td>
+            <td>{{i.username}}</td>
+            <td>{{i.mobile}}</td>
+            <td>{{i.email}}</td>
+            <td>
+              <a href="{% url 'adm_delete_user' userID=i.id %}" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+{% endblock %}
+</html>

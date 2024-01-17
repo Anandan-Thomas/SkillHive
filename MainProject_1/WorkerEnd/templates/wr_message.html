@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'wr_landing.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <center><h5>Messages from Clients</h5></center>
+            <div class="card-body">
+               <div class="container">
+        <h2>This Chat is with {{client.username}}</h2>
+
+        <div class="msg-div" id="display" style="height:450px; overflow:auto;">
+
+<!--            <div class="msg-div msg-container msg-darker">-->
+<!--                <b>Tom</b>-->
+<!--                <p>Hello Everyone, How Are You Guys Doing?</p>-->
+<!--                <span class="time-left">20th, April 2021</span>-->
+<!--            </div>-->
+
+        </div>
+
+
+        <div class="msg-div msg-container">
+
+            <form id="msg_post_skform">
+                {% csrf_token %}
+                <input type="hidden" name="sender_user" id="sender_user"  value="{{worker.disp_name}}"/>
+                <input type="hidden" name="room_id" id="room_id" value="{{room_det.id}}"/>
+                <input class="msg_body" type="text" name="message" id="message" width="100px"/>
+                <input class="msg_send" type="submit" value="Send">
+            </form>
+        </div>
+    </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+ .msg-container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.msg-div.msg-container.msg-darker {
+  color: black;
+  border-color: #f200ff;
+  background-color: #f3c0f6;
+}
+
+.msg-div.msg-container.msg-right {
+  color: black;
+  border-color: orange;
+  text-align: right;
+  background-color: #ffecc6;
+}
+
+.b-right{
+color:orange;
+font-size:25px;
+font-weight:500;
+}
+.b-left{
+color:#f200ff;
+font-size:25px;
+font-weight:500;
+}
+p{
+font-size:20px;
+}
+
+.msg-container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.msg-container img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.msg-container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+    .msg_body, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    }
+
+    .msg_send {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    msg_send:hover {
+    background-color: #45a049;
+    }
+
+    .msg-div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    }
+
+
+</style>
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+<script type="text/javascript">
+<!--loading message-->
+$(document).ready(function(){
+
+ var scrollableDiv = $('#display');
+ var userScrolledUp = false;
+
+    // Check if the user has scrolled up
+    scrollableDiv.on('scroll', function() {
+        userScrolledUp = scrollableDiv.scrollTop() >= 0;
+    });
+
+setInterval(function(){
+    $.ajax({
+        type: 'GET',
+        url : "/uf_getmessages/{{room_det.room_name}}",
+        success: function(response){
+            console.log(response);
+            var currentScrollHeight = scrollableDiv.prop("scrollHeight");
+            $("#display").empty();
+            for (var key in response.msgs)
+            {
+               var sender = response.msgs[key].sender_user;
+                    var msgClass = sender === "{{worker.disp_name}}" ? "msg-right" : "msg-darker";
+                    var timeClass = sender === "{{worker.disp_name}}" ? "time-right" : "time-left";
+                    var bClass = sender === "{{worker.disp_name}}" ? "b-right" : "b-left";
+                    var temp = "<div class='msg-div msg-container " + msgClass + "'><b class='"+bClass+"'>" + response.msgs[key].sender_user + "</b><p>" + response.msgs[key].msg_body + "</p><span class='"+ timeClass +"'>" + response.msgs[key].date + "</span></div>";
+                    $("#display").append(temp);
+            }
+
+            if (!userScrolledUp) {
+                    scrollableDiv.scrollTop(currentScrollHeight);
+                }
+        },
+        error: function(response){
+            alert('An error occured')
+        }
+    });
+},1000);
+})
+<!--submitting message-->
+
+  $(document).on('submit','#msg_post_skform',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type:'POST',
+      url:'/uf_send_msg',
+      data:{
+          sender_user:$('#sender_user').val(),
+          room_id:$('#room_id').val(),
+          message:$('#message').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+         //alert(data)
+      }
+    });
+    document.getElementById('message').value = ''
+  });
+
+
+</script>
+</body>
+{% endblock %}
+</html>

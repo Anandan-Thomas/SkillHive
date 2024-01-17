@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+{% load static %}
+
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'uf2/img/fav.png' %}">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>SkillHivers</title>
+    <!--
+        CSS
+        ============================================= -->
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'uf2/css/linearicons.css' %}">
+    <!--    own css start-->
+    <link rel="stylesheet" href="{% static 'uf2/css/custom-btns.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/skill-tag.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/custom-forms.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/prof_card.css' %}">
+    <!--    own css end-->
+    <link rel="stylesheet" href="{% static 'uf2/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/nouislider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/ion.rangeSlider.css' %}"/>
+    <link rel="stylesheet" href="{% static 'uf2/css/ion.rangeSlider.skinFlat.css' %}"/>
+    <link rel="stylesheet" href="{% static 'uf2/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/main.css' %}">
+</head>
+
+<body>
+
+<!-- Start Header Area -->
+<header class="header_area sticky-header">
+    <div class="main_menu">
+        <nav class="navbar navbar-expand-lg navbar-light main_box">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" href="index.html"><img src="{% static 'uf2/img/aaa/skill_logo.png' %}"
+                                                                      alt="" width="200" height="60"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'uf_home2' %}">Home</a></li>
+                        <li class="nav-item active"><a class="nav-link"
+                                                       href="{% url 'uf_skillhivers_pg' %}">SkillHivers</a></li>
+                        {% if request.session.uf_username %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'uf_req_pg' %}">My Requests</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'uf_chat_list' %}">Chat List</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'uf_contact_pg' %}">Contact</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item submenu dropdown">
+                            {% if request.session.uf_username %}
+                            Welcome, {{request.session.uf_username}}
+                            <ul class="dropdown-menu">
+                                <li class="nav-item" style="padding-left:-20px;"><a class="nav-link"
+                                                                                    href="{% url 'uf_logout' %}">Logout</a>
+                                </li>
+                            </ul>
+                            {% else %}
+                            <button type="button" class="btn-74" data-toggle="modal" data-target="#login">Login
+                            </button>
+                            {% endif %}
+
+                        </li>
+                        <!--							<li class="nav-item">-->
+                        <!--								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>-->
+                        <!--							</li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!--    <div class="search_input" id="search_input_box">-->
+    <!--        <div class="container">-->
+    <!--            <form class="d-flex justify-content-between">-->
+    <!--                <input type="text" class="form-control" id="search_input" placeholder="Search Here">-->
+    <!--                <button type="submit" class="btn"></button>-->
+    <!--                <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>-->
+    <!--            </form>-->
+    <!--        </div>-->
+    <!--    </div>-->
+</header>
+<!-- End Header Area -->
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <div class="text-box">
+                    <h1 style="color:black;">Here are the SkillHivers that we found that best suit your requirements!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================ SkillHivers Area =================-->
+<div class="container" style="margin-top:10px;">
+    <div class="row">
+        <div class="col-xl-12 col-lg-8 col-md-7">
+            <!-- Start Filter Bar -->
+            <div class="filter-bar d-flex flex-wrap align-items-center">
+                <div class="sorting mr-auto">
+                </div>
+                <div class="pagination">
+                    <a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+                    <a href="#">6</a>
+                    <a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+        <section class="lattest-product-area pb-40 category-list">
+            <div class="row" style="height:100vh;">
+                <!-- single product -->
+                {% if res %}
+                {% for i in res %}
+                {% if i.is_disabled == 0 %}
+                <div class="col-lg-6 col-md-6" style="margin-left:-10px;">
+                    <div class="single-product">
+                        <div class="row justify-content-flex-start">
+                            <div class="col-lg-8 col-md-12" style="">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="pc-card p-3" style="width:350px; margin-left:20px;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="pc-image">
+                                                    <img src="{{i.img.url}}"
+                                                         class="rounded" width="120" height="160">
+                                                </div>
+                                                <div class="ml-3" style="width:60%;">
+                                                    <h4 class="mb-0 mt-0">{{i.disp_name}}</h4>
+                                                    <div class="p-2 mt-2 d-flex justify-content-between rounded text-dark pc-stats">
+                                                        <div class="d-flex flex-column">
+                                                            <span class="pc-articles">Town/City</span>
+                                                            <span class="pc-number1">{{i.town}}</span>
+                                                        </div>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="pc-rating">District</span>
+                                                            <span class="pc-number3">{{i.district}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pc-button mt-2 d-flex flex-row justify-content-center align-items-center">
+                                                        <a class="prof-btn"
+                                                           href="{% url 'uf_wrk_pro' dataid=i.id %}"><span
+                                                                class="text">Profile</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5>Skills:</h5>
+                                            <div class="p-2 mt-2 d-flex justify-content-between rounded text-white pc-stats owl-carousel"
+                                                 id="skill_carousel{{i.id}}">
+                                                {% for skill_1 in i.skill_1_list %}
+                                                <div class="skill_tag" style="background-color:orange;">
+                                                    {{skill_1}}
+                                                </div>
+                                                {% endfor %}
+                                                {% for skill_2 in i.skill_2_list %}
+                                                <div class="skill_tag" style="background-color:orange;">
+                                                    {{skill_2}}
+                                                </div>
+
+                                                {% endfor %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <h1 style="margin-left:20px;margin-top:20px;">There are no SkillHivers that match your search query! We are terribly sorry!</h1>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+<!--================Contact Area =================-->
+
+<!-- start footer Area -->
+<footer class="footer-area section_gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About Us</h6>
+                    <p>
+                        Find your neighbourhood experts through us in just a few minutes! We help you connect with
+                        people around you that can help with whatever professional skill you need!
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4  col-md-6 col-sm-6">
+            </div>
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget mail-chimp">
+                    <h6 class="mb-20">Instragram Feed</h6>
+                    <ul class="instafeed d-flex flex-wrap">
+                        <li><img src="{% static 'uf2/img/i1.jpg' %}" alt=""></li>
+                        <li><img src="{% static 'uf2/img/i2.jpg' %}" alt=""></li>
+                        <li><img src="{% static 'uf2/img/i3.jpg' %}" alt=""></li>
+                        <!--							<li><img src="img/i4.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i5.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i6.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i7.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i8.jpg" alt=""></li>-->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Follow Us</h6>
+                    <p>Let us be social</p>
+                    <div class="footer-social d-flex align-items-center">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                        <a href="#"><i class="fa fa-behance"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End footer Area -->
+
+<!--================Contact Success and Error message Area =================-->
+
+<!-- Modals error -->
+
+<!--================End Contact Success and Error message Area =================-->
+
+
+<script src="{% static 'uf2/js/vendor/jquery-2.2.4.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="{% static 'uf2/js/vendor/bootstrap.min.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.sticky.js' %}"></script>
+<script src="{% static 'uf2/js/nouislider.min.js' %}"></script>
+<script src="{% static 'uf2/js/countdown.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'uf2/js/owl.carousel.min.js' %}"></script>
+<!--gmaps Js-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+<script src="{% static 'uf2/js/gmaps.min.js' %}"></script>
+<script src="{% static 'uf2/js/main.js' %}"></script>
+</body>
+<!--login modal target start-->
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <cust-bod>
+                <div class="container-sn">
+                    <div class="forms-container-sn">
+                        <div class="signin-signup-sn">
+                            <form action="{% url 'uf_login_check' %}" class="form-sn sign-in-form-sn" method="POST">
+                                {% csrf_token %}
+                                <h2 class="title-sn">Sign in</h2>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-id-badge"></i>
+                                    <input type="text" placeholder="Username" name="uf_user_l"/>
+                                </div>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" placeholder="Password" name="uf_pass_l"/>
+                                </div>
+                                <button type="submit" class="btn-sn solid">Sign In</button>
+                                <p class="social-text-sn">Or Sign in with social platforms</p>
+                                <div class="social-media-sn">
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-google"></i>
+                                    </a>
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                                <div class="content-sn" style="margin-top:20px;">
+                                    <p><a href="{% url 'wr_login' %}" class="btn-74">SkillHiver?</a></p>
+                                    <p><a href="{% url 'adm_signin' %}" class="btn-74">SkillHive Admin? </a></p>
+                                </div>
+                            </form>
+                            <form action="{% url 'uf_reg_save' %}" class="form-sn sign-up-form-sn" method="POST">
+                                {% csrf_token %}
+                                <h2 class="title-sn">Sign up</h2>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" placeholder="First Name" name="uf_fn"/>
+                                </div>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" placeholder="Last Name" name="uf_ln"/>
+                                </div>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-id-badge"></i>
+                                    <input type="text" placeholder="Username" name="uf_user"/>
+                                </div>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" placeholder="Email" name="uf_em"/>
+                                </div>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" placeholder="Mobile Number" name="uf_mbl" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"/>
+                                </div>
+                                <div class="input-field-sn">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" placeholder="Password" name="uf_pass"/>
+                                </div>
+                                <button type="submit" class="btn-sn">Sign Up</button>
+                                <p class="social-text-sn">Or Sign up with social platforms</p>
+                                <div class="social-media-sn">
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-google"></i>
+                                    </a>
+                                    <a href="#" class="social-icon-sn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="panels-container-sn">
+                        <div class="panel-sn left-panel">
+                            <div class="content-sn">
+                                <h3>New here ?</h3>
+                                <p>
+                                    Create an account and hire your neighbourhood experts now!
+                                </p>
+                                <button class="btn-sn transparent" id="sign-up-btn">
+                                    Sign up
+                                </button>
+                            </div>
+                            <img src="https://i.ibb.co/6HXL6q1/Privacy-policy-rafiki.png" class="image-sn" alt=""/>
+                        </div>
+                        <div class="panel-sn right-panel">
+                            <div class="content-sn">
+                                <h3>One of us ?</h3>
+                                <p>
+                                    Already have an account? Login and continue hiring your neighbourhood experts!
+                                </p>
+                                <button class="btn-sn transparent" id="sign-in-btn">
+                                    Sign in
+                                </button>
+                            </div>
+                            <img src="https://i.ibb.co/nP8H853/Mobile-login-rafiki.png" class="image-sn" alt=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="app.js"></script>
+            </cust-bod>
+        </div>
+    </div>
+</div>
+<!--login modal target end-->
+
+<script>
+
+  const sign_in_btn = document.querySelector("#sign-in-btn");
+const sign_up_btn = document.querySelector("#sign-up-btn");
+const container = document.querySelector(".container-sn");
+
+sign_up_btn.addEventListener("click", () => {
+  container.classList.add("sign-up-mode");
+});
+
+sign_in_btn.addEventListener("click", () => {
+  container.classList.remove("sign-up-mode");
+});
+
+
+</script>
+
+<script>
+{% for i in res %}
+    $(document).ready(function(){
+        $("#skill_carousel{{i.id}}").owlCarousel({
+            items: 3,
+            loop: true,
+            margin: 10,
+            autoplay:true,
+            autoplayTimeout:1000,
+            nav: false,
+
+        });
+    });
+    {% endfor %}
+
+
+</script>
+
+</html>

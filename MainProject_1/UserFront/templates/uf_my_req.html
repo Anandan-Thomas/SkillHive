@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+{% load static %}
+
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'uf2/img/fav.png' %}">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>My Requests</title>
+    <!--
+        CSS
+        ============================================= -->
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'uf2/css/linearicons.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/uf_radio.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/custom-btns.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/custom-forms.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/prof_card.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/nouislider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/ion.rangeSlider.css' %}"/>
+    <link rel="stylesheet" href="{% static 'uf2/css/ion.rangeSlider.skinFlat.css' %}"/>
+    <link rel="stylesheet" href="{% static 'uf2/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'uf2/css/main.css' %}">
+</head>
+
+<body>
+
+<!-- Start Header Area -->
+<header class="header_area sticky-header">
+    <div class="main_menu">
+        <nav class="navbar navbar-expand-lg navbar-light main_box">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" href="index.html"><img src="{% static 'uf2/img/aaa/skill_logo.png' %}"
+                                                                      alt="" width="200" height="60"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'uf_home2' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                                href="{% url 'uf_skillhivers_pg' %}">SkillHivers</a></li>
+                        {% if request.session.uf_username %}
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'uf_req_pg' %}">My Requests</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'uf_chat_list' %}">Chat List</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'uf_contact_pg' %}">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item submenu dropdown">
+                            {% if request.session.uf_username %}
+                            Welcome, {{request.session.uf_username}}
+                            <ul class="dropdown-menu">
+                                <li class="nav-item" style="padding-left:-20px;"><a class="nav-link"
+                                                                                    href="{% url 'uf_logout' %}">Logout</a>
+                                </li>
+                            </ul>
+                            {% else %}
+                            <button type="button" class="btn-74" data-toggle="modal" data-target="#login">Login
+                            </button>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<!-- End Header Area -->
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>My Orders & Requests</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Requests</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--content begin-->
+<div class="container" style="margin-top:30px;">
+    <ul class="responsive-table">
+        <li class="table-header">
+            <div class="col col-1">Req Id</div>
+            <div class="col col-2">SkillHiver</div>
+            <div class="col col-3">Request Details</div>
+            <div class="col col-4">Request Status</div>
+            <div class="col col-5">Completion Status</div>
+        </li>
+        {% for k in req.ord_usr.all %}
+        <li class="table-row" style="box-shadow: 0 0 14px 0px rgba(255, 169, 34, 1),
+ 	  0 0 12px 0px rgba(213, 146, 39, 1);">
+            <div class="col col-1">#{{k.id}}</div>
+            <div class="col col-2"><a href="{% url 'uf_wrk_pro' dataid=k.worker_id %}">{{k.prof_name}}</a></div>
+            <div class="col col-3">
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#req{{k.id}}">
+                    My Request
+                </button>
+
+
+                <div class="modal fade" id="req{{k.id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+
+                            <div class="modal-header">
+                                <h4 class="modal-title">My Request to {{k.prof_name}}</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Request raised on:</label>
+                                    <input type="text" class="form-control" value="{{k.created_at}}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Subject</label>
+                                    <input type="text" value="{{k.o_sub}}" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Request Details</label>
+                                    <textarea rows="3" class="form-control" readonly>{{k.o_desc}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>My Location</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span>Town/City</span>
+                                            <input type="text" class="form-control" value="{{k.o_town}}" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span>District</span>
+                                            <input type="text" class="form-control" value="{{k.o_district}}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>My convenient date interval:</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span>From</span>
+                                            <input type="text" value="{{k.o_f_date}}" class="form-control" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <span>To</span>
+                                            <input type="text" value="{{k.o_l_date}}" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Skillhiver's fixed date</label>
+                                    <input type="text" class="form-control" readonly
+                                           value="{{k.o_fixed_date}}">
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col col-4">{{k.o_status}}</div>
+            <div class="col col-5">
+                {% if k.o_status == 'Rejected' %}
+                <button type="button" class="genric-btn danger circle medium" style="width:110%; font-size:15px"
+                        data-toggle="modal"
+                        data-target="#reject{{k.id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                    </svg>
+                    Rejected
+                </button>
+
+                <!-- The Centered Modal -->
+                <div class="modal fade" id="reject{{k.id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{k.prof_name}}'s reason for rejection</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal Body -->
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Reason:</label>
+                                    {% for r in k.rej_order.all %}
+                                    {% if r.rad_reason == "Unavailable" %}
+                                    <input type="text" class="form-control" value="Unavailable at the requested date interval due to busy
+                                                            schedule." readonly>
+                                    {% elif r.rad_reason == "Skill mismatch" %}
+                                    <input type="text" class="form-control"
+                                           value="Requirements of the request is out of my scope." readonly>
+                                    {% elif r.rad_reason == "location" %}
+                                    <input type="text" class="form-control"
+                                           value="Your location is too far or inconvenient for me." readonly>
+                                    {% elif r.rad_reason == "Communication" %}
+                                    <input type="text" class="form-control"
+                                           value="The job request details were not clear for me." readonly>
+                                    {% else %}
+                                    <input type="text" class="form-control" value="Sorry for the inconvenience."
+                                           readonly>
+                                    {% endif %}
+
+                                </div>
+                                <div class="form-group">
+                                    <textarea rows="3" class="form-control" readonly>{{r.msg}}</textarea>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {% elif k.o_status == 'Pending' %}
+                <!--                waiting modal-->
+                <button type="button" class="genric-btn info circle medium" style="width:110%; font-size:15px;"
+                        data-toggle="modal" data-target="#waiting{{k.id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-stopwatch-fill" viewBox="0 0 16 16">
+                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0"/>
+                    </svg>
+                    Waiting
+                </button>
+
+                <div class="modal fade" id="waiting{{k.id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="title">Request ID #{{k.id}}, Status: Waiting</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Status:</label>
+                                    <input type="text" value="Waiting" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>Request raised on:</label>
+                                            <input type="text" value="{{k.created_at}}" class="form-control" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <label>Today's Date:</label>
+                                            <input type="text" value="{{ today_date }}" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>*If SkillHiver has not responded to your request even after 3 days since the
+                                        day the request was raised, you can cancel the request.</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'uf_cancel_req' reqID=k.id %}" class="genric-btn danger circle medium"
+                                   style="font-size:15px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-slash-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.646-2.646a.5.5 0 0 0-.708-.708l-6 6a.5.5 0 0 0 .708.708l6-6z"/>
+                                    </svg>
+                                    Cancel Request</a>
+                                <button class="genric-btn info circle medium" style="font-size:15px"
+                                        data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--                waiting end-->
+                {% elif k.o_completion is False %}
+                <!--                Not completed modal-->
+                {% if k.user_req.exists %}
+                <button type="button" class="genric-btn danger circle medium" style="width:110%; font-size:15px;"
+                        data-toggle="modal" data-target="#n_cmpl_report{{k.id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-emoji-angry-fill" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M4.053 4.276a.5.5 0 0 1 .67-.223l2 1a.5.5 0 0 1 .166.76c.071.206.111.44.111.687C7 7.328 6.552 8 6 8s-1-.672-1-1.5c0-.408.109-.778.285-1.049l-1.009-.504a.5.5 0 0 1-.223-.67zm.232 8.157a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 1 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183M10 8c-.552 0-1-.672-1-1.5 0-.247.04-.48.11-.686a.502.502 0 0 1 .166-.761l2-1a.5.5 0 1 1 .448.894l-1.009.504c.176.27.285.64.285 1.049 0 .828-.448 1.5-1 1.5"/>
+                    </svg>
+                    Reported
+                </button>
+
+                <div class="modal fade" id="n_cmpl_report{{k.id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="title">Request ID #{{k.id}} Reported!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <label>Your report has been sent to the admin. The team of SkillHive is terribly sorry
+                                    for the inconvenience caused. We will look into your report soon.</label>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="genric-btn info circle medium" style="font-size:15px"
+                                        data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+
+                <button type="button" class="genric-btn info circle medium" style="width:110%; font-size:15px;"
+                        data-toggle="modal" data-target="#n_cmpl{{k.id}}">
+                    Not Completed
+                </button>
+
+                <div class="modal fade" id="n_cmpl{{k.id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="title">Request ID #{{k.id}} Completion Status</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>Fixed Date by SkillHiver:</label>
+                                            <input type="text" value="{{k.o_fixed_date}}" class="form-control" readonly>
+                                        </div>
+                                        <div class="col">
+                                            <label>Today's Date:</label>
+                                            <input type="text" class="form-control" value="{{ today_date }}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>*If the SkillHiver has accepted your request but has not completed your
+                                        request in 3 days after the fixed date, then click the Report button to report
+                                        the issue.</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'uf_n_cmpl_rep_req' dataid=k.id %}"
+                                   class="genric-btn danger circle medium" style="font-size:15px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                    </svg>
+                                    Report
+                                </a>
+                                <button type="button" class="genric-btn primary circle medium" style="font-size:15px;"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <!--                Not completed end-->
+                {% else %}
+                <!--                Completed modal-->
+                {% if k.user_req.exists %}
+                <button type="button" class="genric-btn danger circle medium" style="width:110%; font-size:15px;"
+                        data-toggle="modal"
+                        data-target="#cmpl_rep{{k.id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-emoji-angry-fill" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M4.053 4.276a.5.5 0 0 1 .67-.223l2 1a.5.5 0 0 1 .166.76c.071.206.111.44.111.687C7 7.328 6.552 8 6 8s-1-.672-1-1.5c0-.408.109-.778.285-1.049l-1.009-.504a.5.5 0 0 1-.223-.67zm.232 8.157a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 1 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183M10 8c-.552 0-1-.672-1-1.5 0-.247.04-.48.11-.686a.502.502 0 0 1 .166-.761l2-1a.5.5 0 1 1 .448.894l-1.009.504c.176.27.285.64.285 1.049 0 .828-.448 1.5-1 1.5"/>
+                    </svg>
+                    Reported
+                </button>
+
+                <div class="modal fade" id="cmpl_rep{{k.id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="title">Request ID #{{k.id}} Reported!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <label>Your report has been sent to the admin. The team of SkillHive is terribly sorry
+                                    for the inconvenience caused. We will look into your report soon.</label>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="genric-btn info circle medium" style="font-size:15px"
+                                        data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <button type="button" class="genric-btn primary circle medium" style="width:110%; font-size:15px;"
+                        data-toggle="modal"
+                        data-target="#cmpl{{k.id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </svg>
+                    Completed
+                </button>
+                <div class="modal fade" id="cmpl{{k.id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Request ID {{k.id}} Completed!</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    Your request ID ({{k.id}}) has been completed by {{k.prof_name}} on
+                                    {{k.completed_on}}
+                                </div>
+                                <div class="form-group">
+                                    <p>*If you liked the services of {{k.prof_name}}, please click
+                                        <a href="{% url 'uf_wrk_pro' dataid=k.worker_id %}" class="btn btn-outline-info">here</a>
+                                        to redirect to the {{k.prof_name}}'s Page to rate and review so it can help them
+                                        and
+                                        others like you to know about their services.
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <p>*If there is an issue with this request,such as request was not completed by the
+                                        SkillHiver, please click on the Report button at the end of this box</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="genric-btn danger circle medium" style="font-size:15px;"
+                                        data-toggle="modal"
+                                        data-target="#rep{{k.id}}" data-dismiss="modal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                    </svg>
+                                    Report
+                                </button>
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--                report modal start-->
+                <div class="modal fade" id="rep{{k.id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Report Request ID (#{{k.id}})</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;
+                                </button>
+                            </div>
+                            <form action="{% url 'uf_report_req' dataid=k.id%}" method="POST">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Choose one of the following reasons:</label>
+                                        <div class="rej_radio-group">
+                                            <input type="radio" id="radio1{{k.id}}" name="rep_reason"
+                                                   class="rej_radio-input" value="Incomplete/Not completed">
+                                            <label for="radio1{{k.id}}" class="rej_radio-label">
+                                                <span class="rej_radio-inner-circle"></span>
+                                                My request was not completed or incomplete.
+                                            </label>
+
+                                            <input type="radio" id="radio2{{k.id}}" name="rep_reason"
+                                                   class="rej_radio-input" value="Quality issue">
+                                            <label for="radio2{{k.id}}" class="rej_radio-label">
+                                                <span class="rej_radio-inner-circle"></span>
+                                                The work did not meet the expected quality standards.
+                                            </label>
+                                            <input type="radio" id="radio4{{k.id}}" name="rep_reason"
+                                                   class="rej_radio-input" value="Deadline Not Met">
+                                            <label for="radio4{{k.id}}" class="rej_radio-label">
+                                                <span class="rej_radio-inner-circle"></span>
+                                                Skill Hiver did not adhere to the fixed deadline of the request.
+                                            </label>
+
+                                            <input type="radio" id="radio3{{k.id}}" name="rep_reason"
+                                                   class="rej_radio-input" value="False Completion">
+                                            <label for="radio3{{k.id}}" class="rej_radio-label">
+                                                <span class="rej_radio-inner-circle"></span>
+                                                Skill Hiver may have falsely marked the request as complete.
+                                            </label>
+                                            <input type="radio" id="radio5{{k.id}}" name="rep_reason"
+                                                   class="rej_radio-input" value="Unprofessional">
+                                            <label for="radio5{{k.id}}" class="rej_radio-label">
+                                                <span class="rej_radio-inner-circle"></span>
+                                                Experienced unprofessional behaviour and communication from Skill Hiver.
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kindly elaborate your reason so the appropriate action is taken:</label>
+                                        <textarea rows="3" class="form-control" name="rep_msg"
+                                                  placeholder="Reason..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="genric-btn danger circle medium"
+                                            style="font-size:15px;align-items:flex-start;">Send Report
+                                    </button>
+                                    <button type="button" class="genric-btn info circle arrow medium"
+                                            style="font-size:15px;" data-dismiss="modal" data-target="#cmpl{{k.id}}"
+                                            data-toggle="modal">Go back<span class="lnr lnr-arrow-right"></span>
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <!--                report modal end-->
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<!--content end-->
+
+
+<!--footer start-->
+<footer class="footer-area section_gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About Us</h6>
+                    <p>
+                        Find your neighbourhood experts through us in just a few minutes! We help you connect with
+                        people around you that can help with whatever professional skill you need!
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4  col-md-6 col-sm-6">
+            </div>
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget mail-chimp">
+                    <h6 class="mb-20">Instragram Feed</h6>
+                    <ul class="instafeed d-flex flex-wrap">
+                        <li><img src="{% static 'uf2/img/i1.jpg' %}" alt=""></li>
+                        <li><img src="{% static 'uf2/img/i2.jpg' %}" alt=""></li>
+                        <li><img src="{% static 'uf2/img/i3.jpg' %}" alt=""></li>
+                        <!--							<li><img src="img/i4.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i5.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i6.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i7.jpg" alt=""></li>-->
+                        <!--							<li><img src="img/i8.jpg" alt=""></li>-->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Follow Us</h6>
+                    <p>Let us be social</p>
+                    <div class="footer-social d-flex align-items-center">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                        <a href="#"><i class="fa fa-behance"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script src="{% static 'uf2/js/vendor/jquery-2.2.4.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="{% static 'uf2/js/vendor/bootstrap.min.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.sticky.js' %}"></script>
+<script src="{% static 'uf2/js/nouislider.min.js' %}"></script>
+<script src="{% static 'uf2/js/countdown.js' %}"></script>
+<script src="{% static 'uf2/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'uf2/js/owl.carousel.min.js' %}"></script>
+<!--gmaps Js-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+<script src="{% static 'uf2/js/gmaps.min.js' %}"></script>
+<script src="{% static 'uf2/js/main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<style>
+    .container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+h2 {
+  font-size: 26px;
+  margin: 20px 0;
+  text-align: center;
+  small {
+    font-size: 0.5em;
+  }
+}
+
+.responsive-table {
+  li {
+    border-radius: 3px;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    font-size:15px;
+    font-weight:500;
+    color:black;
+  }
+  .table-header {
+    background-color: #ff7500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color:white;
+  }
+  .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  }
+  .col-1 {
+    flex-basis: 20%;
+  }
+  .col-2 {
+    flex-basis: 20%;
+  }
+  .col-3 {
+    flex-basis: 20%;
+  }
+  .col-4 {
+    flex-basis: 20%;
+  }
+  .col-5 {
+    flex-basis: 20%;
+  }
+
+  @media all and (max-width: 767px) {
+    .table-header {
+      display: none;
+    }
+    .table-row{
+
+    }
+    li {
+      display: block;
+    }
+    .col {
+
+      flex-basis: 100%;
+
+    }
+    .col {
+      display: flex;
+      padding: 10px 0;
+      &:before {
+        color: #6C7A89;
+        padding-right: 10px;
+        content: attr(data-label);
+        flex-basis: 50%;
+        text-align: right;
+      }
+    }
+  }
+}
+</style>
+<script>
+    $('body').on('hidden.bs.modal', function () {
+if($('.modal.show').length > 0)
+{
+    $('body').addClass('modal-open');
+}
+});
+
+</script>
+{% if messages %}
+{% for i in messages %}
+{% if i.tags == 'warning' %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "warning",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% elif i.tags == 'error' %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "error",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% elif i.tags == 'success' %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "success",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% else %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "info",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+</body>
+</html>

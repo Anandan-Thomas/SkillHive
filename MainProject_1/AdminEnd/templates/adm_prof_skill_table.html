@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'landing.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Skills Table</title>
+</head>
+<body>
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <center><h5>Skills Details</h5></center>
+            <div class="dd1">
+                <div id="exampleModalCenter" class="modal fade" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Add Skill Form</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{% url 'adm_add_skill' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label>Skill Name</label>
+                                        <input type="text" class="form-control" id="" name="sk_nm"
+                                               placeholder="Type here...">
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn  btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn  btn-primary">Add</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    Add Skill
+                </button>
+            </div>
+
+            <div class="card-body table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead style="text-align:center;">
+                        <tr>
+                            <th>S.no</th>
+                            <th>Skills</th>
+                            <th>Options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in skill %}
+                        <tr style="text-align:center">
+                            <td>{{i.id}}</td>
+                            <td>{{i.skill}}</td>
+                            <td>
+                                <button type="submit" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#sk{{i.id}}">Edit
+                                </button>
+                                <!--edit modal-->
+                                <div class="modal fade" id="sk{{i.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="title">Updation for skill {{i.skill}}</h4>
+                                            </div>
+                                            <form action="{% url 'adm_upd_skill' skillID=i.id %}" method="post">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <input type="text" value="{{i.skill}}" name="skill_name"
+                                                               class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-info">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--                        edit modal end-->
+
+                                <a href="{% url 'adm_del_skill' skillID=i.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    .dd1{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -30px;
+    }
+
+</style>
+</body>
+
+{% endblock %}
+</html>

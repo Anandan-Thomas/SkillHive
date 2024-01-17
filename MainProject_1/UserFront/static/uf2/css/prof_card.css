@@ -1,0 +1,42 @@
+
+
+.pc-card{
+  width: 350px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffcd77ba;
+  box-shadow: 0 0 11px 0px rgba(255, 174, 0, 1),
+ 	  0 0 8px 0px rgba(255, 235, 104, 1);
+}
+
+
+
+.pc-stats{
+
+      background: #f2f5f8 !important;
+
+    color: #000 !important;
+}
+.pc-articles{
+  font-size:10px;
+  color: #a1aab9;
+}
+.pc-number1{
+  font-weight:500;
+}
+.pc-followers{
+    font-size:10px;
+  color: #a1aab9;
+
+}
+.pc-number2{
+  font-weight:500;
+}
+.pc-rating{
+    font-size:10px;
+  color: #a1aab9;
+}
+.pc-number3{
+  font-weight:500;
+}
+

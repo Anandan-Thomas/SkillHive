@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>SkillHive Admin</title>
+    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 11]>
+    	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    	<![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="">
+    <meta name="author" content="Phoenixcoded" />
+    <!-- Favicon icon -->
+    <link rel="icon" href="{% static 'assets/images/favicon.ico' %}" type="image/x-icon">
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/adm_radio.css' %}">
+
+
+
+</head>
+<body class="">
+	<!-- [ Pre-loader ] start -->
+	<div class="loader-bg">
+		<div class="loader-track">
+			<div class="loader-fill"></div>
+		</div>
+	</div>
+	<!-- [ Pre-loader ] End -->
+	<!-- [ navigation menu ] start -->
+	<nav class="pcoded-navbar" style="background:#000000;">
+		<div class="navbar-wrapper">
+			<div class="navbar-content scroll-div " >
+
+				<div class="">
+					<div class="main-menu-header" style="background:transparent;">
+						<img class="img-radius" src="{% static 'assets/images/user/avatar-2.jpg' %}" alt="User-Profile-Image">
+						<div class="user-details">
+							{% if request.session.adm_username %}
+							<span>{{request.session.adm_username}}</span>
+							{% endif %}
+						</div>
+					</div>
+
+				</div>
+
+				<ul class="nav pcoded-inner-navbar ">
+					<li class="nav-item pcoded-menu-caption">
+						<label>Navigation</label>
+					</li>
+					<li class="nav-item active">
+					    <a href="{% url 'adm_landing' %}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+					</li>
+					<li class="nav-item pcoded-menu-caption">
+						<label>Workers Side</label>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Workers</span></a>
+						<ul class="pcoded-submenu">
+							<li><a href="{% url 'adm_wrk_table' %}">Worker Table</a></li>
+							<li><a href="{% url 'adm_skill_table' %}">Skills Table</a></li>
+						</ul>
+					</li>
+					<li class="nav-item pcoded-menu-caption">
+						<label>Users Side</label>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Users</span></a>
+						<ul class="pcoded-submenu">
+							<li><a href="{% url 'adm_user_table' %}">User Table</a></li>
+							<li><a href="{% url 'adm_fb' %}">User Feedback</a></li>
+						</ul>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Reports</span></a>
+						<ul class="pcoded-submenu">
+							<li><a href="{% url 'adm_report_req_pg' %}">Request Reports</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- [ navigation menu ] end -->
+	<!-- [ Header ] start -->
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light" style="background:linear-gradient(6deg, rgba(253,29,29,1) 1%, rgba(252,176,69,1) 25%, rgba(154,0,255,1) 71%);">
+
+
+				<div class="m-header">
+					<a class="mobile-menu" id="mobile-collapse" href="#!" style="margin-right:-50px;"><span></span></a>
+					<a href="#!" class="b-brand">
+						<!-- ========   change your logo hear   ============ -->
+						<img src="{% static 'assets/images/logo/skill_hive.png' %}" width="200" height="50" alt="" class="logo">
+					</a>
+					<a href="#!" class="mob-toggler">
+						<i class="feather icon-more-vertical"></i>
+					</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item" style="margin-left:50px;">
+							<h4 style="color:black;">Admin Dashboard</h4>
+						</li>
+					</ul>
+					<ul class="navbar-nav ml-auto">
+						<li>
+							<div class="dropdown drp-user">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="feather icon-user"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right profile-notification">
+									<div class="pro-head">
+										<img src="{% static 'assets/images/user/avatar-1.jpg' %}" class="img-radius" alt="User-Profile-Image">
+										{% if request.session.adm_username %}
+										<span>{{request.session.adm_username}}</span>
+										{% endif %}
+										<a href="{% url 'adm_logout' %}" class="dud-logout" title="Logout">
+											<i class="feather icon-log-out"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+
+	</header>
+	<!-- [ Header ] end -->
+
+
+
+<!-- [ Main Content ] start -->
+
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+		{% block content %}
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Dashboard Analytics</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'adm_landing' %}"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Dashboard Analytics</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+             <div class="col-sm-4">
+                <div class="card text-white bg-success ">
+                    <div class="card-header">
+                        <center>Active Users</center>
+                    </div>
+                    <a href="{% url 'adm_user_table' %}">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">
+                                <center>{{users}}</center>
+                            </h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+			 <div class="col-sm-4">
+                <div class="card text-white bg-warning ">
+                    <div class="card-header">
+                        <center>Pending Reports</center>
+                    </div>
+                    <a href="{% url 'adm_report_req_pg' %}">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">
+                                <center>{{pending}}</center>
+                            </h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="card text-white bg-success ">
+                    <div class="card-header">
+                        <center>Active SkillHivers</center>
+                    </div>
+                    <a href="{% url 'adm_wrk_table' %}">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">
+                                <center>{{act_sk}}</center>
+                            </h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+             <div class="col-sm-4">
+                <div class="card text-white bg-info ">
+                    <div class="card-header">
+                        <center>Skills Added</center>
+                    </div>
+                    <a href="{% url 'adm_skill_table' %}">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">
+                                <center>{{skills}}</center>
+                            </h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+			 <div class="col-sm-4">
+                <div class="card text-white bg-danger ">
+                    <div class="card-header">
+                        <center>Disabled Skillhivers</center>
+                    </div>
+                    <a href="{% url 'adm_wrk_table' %}">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">
+                                <center>{{dis_sk}}</center>
+                            </h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+			 <div class="col-sm-4">
+                <div class="card text-white bg-info ">
+                    <div class="card-header">
+                        <center>Feedbacks Received</center>
+                    </div>
+                    <a href="{% url 'adm_fb' %}">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">
+                                <center>{{feedback}}</center>
+                            </h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+	{% endblock %}
+    <!-- Warning Section Ends -->
+
+    <!-- Required Js -->
+    <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+
+<!-- Apex Chart -->
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+
+
+<!-- custom-chart js -->
+<script src="{% static 'assets/js/pages/dashboard-main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+{% for i in messages %}
+{% if i.tags == 'warning' %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "warning",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% elif i.tags == 'error' %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "error",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% elif i.tags == 'success' %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "success",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% else %}
+<script>
+Swal.fire({
+  title: "{{i}}",
+  showConfirmButton: false,
+  icon: "info",
+  timer:1500,
+  timerProgressBar: true
+});
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+</body>
+
+</html>

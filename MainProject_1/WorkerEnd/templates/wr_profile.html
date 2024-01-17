@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'wr_landing.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Worker Profile</title>
+</head>
+<body>
+<div>
+    <div class="form-row" style="display:flex; justify-content:center;">
+        <img src="{{data.img.url}}" alt="Admin" class="rounded-circle p-1 bg-primary" width="200"><br>
+    </div>
+    <div class="form-row" style="justify-content:center;"><h1>Hello, {{data.disp_name}}</h1><br><br>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>First Name</label>
+            <input type="text" class="form-control chumma" value="{{data.first_name}}" readonly>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Last Name</label>
+            <input type="text" class="form-control chumma" value="{{data.last_name}}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="text" class="form-control chumma" value="{{data.dob}}" readonly>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>District</label>
+            <input type="text" class="form-control chumma" value="{{data.district}}" readonly>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Town/City</label>
+            <input type="text" class="form-control chumma" value="{{data.town}}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea rows="3" class="form-control chumma" readonly>{{data.desc}}</textarea>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Skills</label>
+            <input type="text" class="form-control chumma" value="{{data.skill_1}}" readonly>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Other Skills</label>
+            <input type="text" class="form-control chumma" value="{{data.skill_2}}" readonly>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Primary Mobile Number</label>
+            <input type="tel" class="form-control chumma" value="{{data.mob_1}}" readonly>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Secondary Mobile Number</label>
+            <input type="tel" class="form-control chumma" value="{{data.mob_2}}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Email ID</label>
+        <input type="text" class="form-control chumma" value="{{data.email}}" readonly>
+    </div>
+    <form action="{% url 'wr_edit_prof' %}">
+        <button type="submit" class="btn  btn-primary">Edit</button>
+    </form>
+</div>
+</body>
+<style>
+.chumma{
+border-radius: 15px;
+  outline: 2px solid #9a00ff;
+  border: 0;
+  background-color: #e2e2e2;
+  outline-offset: 3px;
+  padding: 10px 1rem;
+  transition: 0.25s;
+}
+.chumma:focus{
+ outline-offset: 5px;
+  background-color: #fff
+}
+</style>
+{% endblock %}
+</html>

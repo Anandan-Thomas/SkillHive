@@ -1,0 +1,34 @@
+.skill_tag {
+  position: relative;
+  display: inline-block;
+  border-radius: 2px; /* Reduced border-radius */
+  clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px); /* Adjusted clip-path values */
+  background: var(--color-front);
+  padding: 8px 16px; /* Adjusted padding */
+  margin: 0 4px; /* Adjusted margin */
+  font-weight: 500;
+  font-size: 11.9px;
+  color: var(--color-text);
+  transition: clip-path 500ms;
+}
+
+.skill_tag:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px; /* Adjusted width */
+  height: 12px; /* Adjusted height */
+  background: var(--color-back);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 3px 0; /* Adjusted border-radius */
+  transition: transform 500ms;
+}
+
+.skill_tag:hover {
+  clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0% 100%, 0% 0px);
+}
+
+.skill_tag:hover:after {
+  transform: translate(-100%, -100%);
+}
